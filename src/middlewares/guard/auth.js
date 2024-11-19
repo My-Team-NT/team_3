@@ -1,22 +1,22 @@
-import { AuthenticationError, verifyToken } from '../../utils/index.js'
-
-export const authGuard = async (req, res, next) => {
+import jwt from 'jsonwebtoken'
+import { config } from '../../config/index.js'
+export const authGuard = (req, res, next) => {
     try {
-        const token = req.headers['authorization']
-
-        if (!token || !token.startsWith('Bearer')) {
-            throw new AuthenticationError('Token or auth type not valid')
+        if (!req.headers.authorization) {
+            return res.status(409).send('token not found')
         }
-
-        const payload = await verifyToken('access', token.split(' ')[1])
-
-        if (!payload.success) {
-            throw new AuthenticationError('Token is  expired')
+        const [type, token] = req.headers.authorization?.split(' ')
+        if (type !== 'Bearer' || !token) {
+            return res.status(409).send('Not valid Data')
         }
-
-        req.user = payload
-        next()
-    } catch (e) {
-        next(e)
+        jwt.verify(token, config.jwt.access.secret, (err, payload) => {
+            if (err) {
+                return res.status(403).send('Forbidden')
+            }
+            req.user = payload
+            next()
+        })
+    } catch (error) {
+        next(error)
     }
 }
