@@ -5,6 +5,7 @@
     "main": "index.js",
     "type": "module",
     "scripts": {
+        "format": "prettier --write .",
         "dev": "nodemon server.js",
         "start": "node server.js",
         "start:dev": "node --watch server.js"

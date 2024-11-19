@@ -1,6 +1,6 @@
-import jwt from 'jsonwebtoken'
+import jwt from "jsonwebtoken"
 const { sign, verify } = jwt
-import { config } from '../../config/index.js'
+import { config } from "../../config/index.js"
 
 export const generateToken = async (prop, payload) => {
     const option = config.jwt[prop]
@@ -25,7 +25,7 @@ export const verifyToken = async (prop, token) => {
             success: true,
         }
     } catch (error) {
-        if (error.message === 'invalid token') {
+        if (error.message === "invalid token") {
             return {
                 success: false,
             }
