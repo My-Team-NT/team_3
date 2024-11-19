@@ -1,19 +1,19 @@
-import globals from 'globals'
+import globals from "globals"
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
     {
         // extends: ['airbnb-base', 'plugin:prettier/recommended'],
-        files: ['**/*.js'],
+        files: ["**/*.js"],
         languageOptions: {
-            ecmaVersion: 'latest',
-            sourceType: 'module',
+            ecmaVersion: "latest",
+            sourceType: "module",
             globals: globals.node,
         },
         rules: {
-            'prefer-const': 'error',
-            'no-unused-vars': 'warn',
-            'no-console': 'error',
+            "prefer-const": "error",
+            "no-unused-vars": "warn",
+            "no-console": "error",
         },
     },
 ]
