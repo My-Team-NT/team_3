@@ -1,3 +1,7 @@
+export * from "./categoty.controller.js"
+export * from "./products.controller.js"
+export * from "./reviews.contorller.js"
+
 export *from './auth.controller.js'
 export * from './user.controller.js'
 export * from './address.controller.js'

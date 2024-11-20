@@ -7,3 +7,4 @@ export const accessTokenSing = (payload) => {
 export const refreshTokenSing = (payload) => {
     return JWT.sign(payload ,config.jwt.refresh.secret, {expiresIn: config.jwt.refresh.expiresIn } )
 }
+

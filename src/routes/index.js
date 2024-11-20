@@ -1,3 +1,6 @@
+export * from "./categorys.routes.js"
+export * from "./products.routes.js"
+export * from "./reviews.routes.js"
 export * from './addrss.routes.js'
 export * from './auth.routes.js'
 export * from './socialProfile.routes.js'

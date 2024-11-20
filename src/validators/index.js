@@ -1,3 +1,6 @@
+export * from "./products.validate.js"
+export * from "./categoty.validate.js"
+export * from "./reviews.validate.js"
 export * from './auth.validation.js'
 export * from './socialProfile.validation.js'
 export * from './address.validation.js'
