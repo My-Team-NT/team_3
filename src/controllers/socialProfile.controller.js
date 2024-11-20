@@ -28,6 +28,7 @@ export const filterSocialProfile = async (req, res, next) => {
         if (!socialProfile) {
             return req.status(404).send({ msg: "NOT FOUND" })
         }
+    // TODO: Nimaga req.status
         return res.status(200).send({ status: "Success", data: socialProfile })
     } catch (error) {
         next(error)

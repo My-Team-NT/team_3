@@ -21,6 +21,7 @@ export const getOneOrderController = async (req, res, next) => {
     try {
         const { id } = req.params
         const data = await Order.find({ _id: id })
+        // TODO: find o'rniga findByID menimcha
         if (data.length === 0) {
             return res.status(404).send("Not found")
         }
@@ -57,6 +58,7 @@ export const deleteOrderController = async (req, res, next) => {
     try {
         const data = await Order.findByIdAndDelete(req.params.id)
         res.status(200).send({ status: "deleted", data })
+        // TODO: Menimcha tekshirish kerak 
     } catch (error) {
         logger.error(error)
         next(error)
