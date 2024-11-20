@@ -6,12 +6,12 @@ import {
     updateProductController,
     deleteProductController,
 } from "../controllers/index.js"
-import { authGuard, roleGuard } from "../middlewares/index.js"
+import { authGuard, roleGuard, validateProductMiddleware } from "../middlewares/index.js"
 
 export const productRouter = Router()
 
 productRouter.get("/all",authGuard, getAllProductController)
 productRouter.get("/one/:id",authGuard, getOneProductController)
-productRouter.post("/add",authGuard, roleGuard("admin"), createProductController)
+productRouter.post("/add",authGuard, roleGuard("admin"),validateProductMiddleware, createProductController)
 productRouter.put("/update/:id",authGuard, roleGuard("admin"), updateProductController)
 productRouter.delete("/delete/:id",authGuard, roleGuard("admin"), deleteProductController)

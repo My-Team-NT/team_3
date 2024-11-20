@@ -13,7 +13,7 @@ import { roleGuard } from "../middlewares/index.js"
 
 export const userRouter = express.Router()
 
-userRouter.post("/profile" , getProfile)
+userRouter.get("/profile" , getProfile)
 userRouter.get("/page" , getPageUser)
 userRouter.get("/filter", filterUser)
 userRouter.get("/search", searchrUser)

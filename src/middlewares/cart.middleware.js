@@ -1,6 +1,6 @@
 import { validateCart } from "../validators/index.js"
 
-export const createCategory = (req, res, next) => {
+export const createCart = (req, res, next) => {
     const { error } = validateCart(req.body)
     if (error) {
         return res.status(400).json({

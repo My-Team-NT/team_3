@@ -32,10 +32,12 @@ export const getByIdUser = async (req, res, next) => {
 
 export const searchrUser = async (req, res, next) => {
     try {
-        const search = req.query.name || "";
-        const users = await User.find({name : {$regex: search,$options: "i"}});
-        if(!users){
-            return res.status(404).send({msg: "Malumot Topilmadi"})
+        const search = req.query.name || ""
+        const users = await User.find({
+            name: { $regex: search, $options: "i" },
+        })
+        if (!users) {
+            return res.status(404).send({ msg: "Malumot Topilmadi" })
         }
         return res.status(200).send({ status: "Success", data: users })
     } catch (error) {
@@ -44,9 +46,9 @@ export const searchrUser = async (req, res, next) => {
 }
 export const filterUser = async (req, res, next) => {
     try {
-        const users = await User.find({...req.query})
-        if(!users){
-            return res.status(404).send({msg: "Malumot Topilmadi"})
+        const users = await User.find({ ...req.query })
+        if (!users) {
+            return res.status(404).send({ msg: "Malumot Topilmadi" })
         }
         return res.status(200).send({ status: "Success", data: users })
     } catch (error) {
@@ -55,8 +57,8 @@ export const filterUser = async (req, res, next) => {
 }
 export const getPageUser = async (req, res, next) => {
     try {
-        const {page , limit} = req.query
-        const skip = (page -1) * limit
+        const { page, limit } = req.query
+        const skip = (page - 1) * limit
         const users = await User.find().skip(skip).limit(limit)
         return res.status(200).send({ status: "Success", data: users })
     } catch (error) {

@@ -1,6 +1,6 @@
 import { validateWishlist } from "../validators/index.js"
 
-export const createCategory = (req, res, next) => {
+export const createWishlist = (req, res, next) => {
     const { error } = validateWishlist(req.body)
     if (error) {
         return res.status(400).json({

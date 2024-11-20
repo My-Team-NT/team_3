@@ -38,7 +38,7 @@ export const searchAddress = async (req, res, next) => {
     try {
         const search = req.query.name || ""
         const adress = await Address.find({
-            name: { $regex: search, $options: "i" },
+            title: { $regex: search, $options: "i" },
         })
         if (!adress) {
             return req.status(404).send({ msg: "NOT FOUND" })

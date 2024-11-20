@@ -36,9 +36,9 @@ export const filterSocialProfile = async (req, res, next) => {
 
 export const searchSocialProfile = async (req, res, next) => {
     try {
-        const search = req.query.name || ""
+        const search = req.query.platform || ""
         const socialProfile = await SocileProfile.find({
-            name: { $regex: search, $options: "i" },
+            platform: { $regex: search, $options: "i" },
         })
         if (!socialProfile) {
             return req.status(404).send({ msg: "NOT FOUND" })

@@ -4,8 +4,13 @@ import {
     sendMail,
     accessTokenSing,
     refreshTokenSing,
+    logger,
 } from "../utils/index.js"
-import { loginValidation, registerValidation, verifyValidation } from '../validators/index.js'
+import {
+    loginValidation,
+    registerValidation,
+    verifyValidation,
+} from "../validators/index.js"
 
 export const registerController = async (req, res, next) => {
     try {
@@ -92,13 +97,13 @@ export const verifyToken = async (req, res, next) => {
                 .status(403)
                 .send({ msg: "Sizni Otp Codeginzni Vohti tugagan" })
         }
-        const isEqual = currentOtp.verify(otp)
-        if (!isEqual) {
+
+        if (currentOtp.otp === otp) {
             return res.status(401).send({ msg: "Otp xato kiritilgan" })
         }
         await OTP.deleteOne({ user_id: currentUser._id })
         await User.updateOne({ email }, { is_active: true })
-        return res.status(200).send({msg: "User is Actived"})
+        return res.status(200).send({ msg: "User is Actived" })
     } catch (error) {
         next(error)
     }

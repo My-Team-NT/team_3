@@ -14,7 +14,7 @@ import {
     userRouter,
     addressRouter
 } from "./routes/index.js"
-
+import { authGuard } from "./middlewares/index.js"
 
 
 const app = express()
@@ -24,9 +24,9 @@ app.use(express.urlencoded({ extended: true }))
 app.use(morgan("dev"))
 
 app.use("/api/v1/auth",authRouter)
-app.use("/api/v1/users",socialProfileRouter)
-app.use("/api/v1/socialProfile",userRouter)
-app.use("/api/v1/addres",addressRouter)
+app.use("/api/v1/users",authGuard  , userRouter)
+app.use("/api/v1/socialProfile",authGuard ,socialProfileRouter)
+app.use("/api/v1/addres",authGuard,addressRouter)
 
 app.use("/api/v1/products", productRouter)
 app.use("/api/v1/categories", categoryRouter)

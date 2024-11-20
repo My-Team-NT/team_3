@@ -1,6 +1,6 @@
 import { validateOrder } from "../validators/index.js"
 
-export const createCategory = (req, res, next) => {
+export const createOrder = (req, res, next) => {
     const { error } = validateOrder(req.body)
     if (error) {
         return res.status(400).json({
