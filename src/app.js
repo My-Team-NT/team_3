@@ -38,7 +38,7 @@ app.use("/api/v1/order", orderRouter)
 app.use("/api/v1/wishlist", wishlistRouter)
 
 
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
     if (err) {
         return res.send(err.message)
     }

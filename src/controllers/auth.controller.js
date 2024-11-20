@@ -3,8 +3,7 @@ import {
     generateOtp,
     sendMail,
     accessTokenSing,
-    refreshTokenSing,
-    logger,
+    refreshTokenSing
 } from "../utils/index.js"
 import {
     loginValidation,
