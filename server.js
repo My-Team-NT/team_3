@@ -1,6 +1,6 @@
-import app from './src/app.js'
-import { connectMongodb } from './src/databases/index.js'
-import { logger } from './src/utils/index.js'
+import app from "./src/app.js"
+import { connectMongodb } from "./src/databases/index.js"
+import { logger } from "./src/utils/index.js"
 
 const startApp = async () => {
     try {
