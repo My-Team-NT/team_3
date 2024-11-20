@@ -19,6 +19,7 @@ export const getAllCartController = async (req, res, next) => {
 
 export const getOneCartController = async (req, res, next) => {
     try {
+        //TODO: XATO EMAS findById foydalangan yaxshi
         const { id } = req.params
         const data = await Cart.find({ _id: id })
         if (data.length === 0) {
