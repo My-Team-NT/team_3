@@ -24,7 +24,6 @@ export const registerController = async (req, res, next) => {
         sendMail(
             email,
             "OTP",
-            "OTP CODE",
             `<h1>
             This Your otp: 
             <h2 style="background: yellow;color: rgb(0, 0, 0);width: 7%;">${otp}</h2>
