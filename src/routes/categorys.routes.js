@@ -9,7 +9,7 @@ import {
 import {authGuard, roleGuard} from '../middlewares/index.js'
 
 export const categoryRouter = Router()
-
+// getAll va GetbyId da authGuard shart emas
 categoryRouter.get("/all",authGuard, getAllCategoryController)
 categoryRouter.get("/one/:id",authGuard, getOneCategoryController)
 categoryRouter.post("/add",authGuard, roleGuard("admin"), createCategoryController)

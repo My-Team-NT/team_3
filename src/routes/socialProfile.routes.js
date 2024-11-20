@@ -12,7 +12,7 @@ import {
 import { roleGuard } from "../middlewares/index.js"
 
 export const socialProfileRouter = express.Router()
-
+// roleGuard tekshirish uchun birinchi authGuard yozilishi kerak royxatdan otgan va login qilingan
 socialProfileRouter.get("/page",roleGuard('Admin'), getPageSocialProfile)
 socialProfileRouter.get("/filter", roleGuard('Admin'),filterSocialProfile)
 socialProfileRouter.get("/search",roleGuard('Admin'), searchSocialProfile)

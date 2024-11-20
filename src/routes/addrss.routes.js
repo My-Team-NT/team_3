@@ -3,6 +3,7 @@ import {getAllAddress , createAddress, getPageAddress, filterAddress, searchAddr
 import {roleGuard} from '../middlewares/index.js'
 export const addressRouter = express.Router()
 
+// todo: roleGuard tekshirishdan oldin authenticationdan otish kerak.. yaniy authGuard yozish kerak
 addressRouter.get("/page" , roleGuard('Admin'), getPageAddress)
 addressRouter.get("/filter", roleGuard('Admin'), filterAddress)
 addressRouter.get("/search",  roleGuard('Admin'), searchAddress)

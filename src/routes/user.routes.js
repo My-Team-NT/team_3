@@ -13,6 +13,7 @@ import { roleGuard } from "../middlewares/index.js"
 
 export const userRouter = express.Router()
 
+// authguard yozmasdan yana roleguard yozilgan bu mumkinmas
 userRouter.post("/profile" , getProfile)
 userRouter.get("/page" , getPageUser)
 userRouter.get("/filter", filterUser)
