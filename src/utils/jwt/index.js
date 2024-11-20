@@ -1,36 +1,9 @@
-import jwt from "jsonwebtoken"
-const { sign, verify } = jwt
-import { config } from "../../config/index.js"
-
-export const generateToken = async (prop, payload) => {
-    const option = config.jwt[prop]
-
-    const token = await sign(payload, option.secret, {
-        expiresIn: option.expiresIn,
-    })
-
-    return token
+import JWT from 'jsonwebtoken'
+import { config } from '../../config/index.js'
+export const accessTokenSing = (payload) => {
+    return JWT.sign(payload ,config.jwt.access.secret, {expiresIn: config.jwt.access.expiresIn } )
 }
 
-// console.log(await generateToken("access", { sub: 1 }))
-
-export const verifyToken = async (prop, token) => {
-    try {
-        const option = config.jwt[prop]
-
-        const result = await verify(token, option.secret)
-
-        return {
-            ...result,
-            success: true,
-        }
-    } catch (error) {
-        if (error.message === "invalid token") {
-            return {
-                success: false,
-            }
-        }
-    }
+export const refreshTokenSing = (payload) => {
+    return JWT.sign(payload ,config.jwt.refresh.secret, {expiresIn: config.jwt.refresh.expiresIn } )
 }
-
-// console.log(await isvalidToken("access", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCaJ9.eyJzdWIiOjEsImlhdCI6MTczMTY2NzA5MywiZXhwIjoxNzMxNjcwNjkzfQ.JCwkOLsujI9KwTco9px-xW9Pum1jhwwD5QIUHaYW3ac"));
