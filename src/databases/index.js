@@ -1,11 +1,16 @@
-import mongoose from "mongoose"
-import { logger } from "../utils/index.js"
+import knex from "knex"
+import { config } from "dotenv"
+config()
 
-export const connectMongodb = async () => {
-    try {
-        await mongoose.connect(process.env.MONGO_URI)
-        logger.info("MONGODB CONNECTED!")
-    } catch (error) {
-        throw new Error(error)
-    }
-}
+const db = knex({
+    client: "pg",
+    connection: {
+        host: process.env.PG_HOST,
+        port: process.env.PG_PORT,
+        user:process.env.PG_USER,
+        password:process.env.PG_PASSWORD,
+        database :process.env.PG_DATABASE
+    },
+})
+
+export default db
