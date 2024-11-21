@@ -12,7 +12,13 @@ export const orderRouter = Router()
 
 orderRouter.get("/all", authGuard, getAllOrderController)
 orderRouter.get("/one/:id", authGuard, getOneOrderController)
-orderRouter.post("/add", authGuard, roleGuard(["admin"]), createOrder,createOrderController)
+orderRouter.post(
+    "/add",
+    authGuard,
+    roleGuard(["admin"]),
+    createOrder,
+    createOrderController,
+)
 orderRouter.put(
     "/update/:id",
     authGuard,

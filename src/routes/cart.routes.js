@@ -12,6 +12,22 @@ export const cartRouter = Router()
 
 cartRouter.get("/all", authGuard, getAllCartController)
 cartRouter.get("/one/:id", authGuard, getOneCartController)
-cartRouter.post("/add", authGuard,roleGuard(['admin']), createCart ,createCartController)
-cartRouter.put("/update/:id", authGuard,roleGuard(['admin']), updateCartController)
-cartRouter.delete("/delete/:id", authGuard,roleGuard(['admin']), deleteCartController)
+cartRouter.post(
+    "/add",
+    authGuard,
+    roleGuard(["admin"]),
+    createCart,
+    createCartController,
+)
+cartRouter.put(
+    "/update/:id",
+    authGuard,
+    roleGuard(["admin"]),
+    updateCartController,
+)
+cartRouter.delete(
+    "/delete/:id",
+    authGuard,
+    roleGuard(["admin"]),
+    deleteCartController,
+)

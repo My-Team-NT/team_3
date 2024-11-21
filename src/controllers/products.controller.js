@@ -1,22 +1,29 @@
-import { Product } from "../schema/index.js"
+import db from "../databases/index.js"
 import { logger } from "../utils/index.js"
 
 export const getAllProductController = async (req, res, next) => {
     try {
-        const page = req.query.page || 1
-        const limit = req.query.limit || 10
+        const page = parseInt(req.query.page) || 1
+        const limit = parseInt(req.query.limit) || 10
         const skip = (page - 1) * limit
-        const products = await Product.find().skip(skip).limit(limit)
 
-        if (!products) {
+        const products = await db("products")
+            .select("*")
+            .limit(limit)
+            .offset(skip)
+
+        if (products.length === 0) {
             return res.status(404).send({
-                status: "NoT Found",
+                status: "Not Found",
+                message: "No products found",
             })
         }
 
         return res.status(200).send({
             status: "Success",
-            products: products,
+            page,
+            limit,
+            products,
         })
     } catch (error) {
         logger.error(error)
@@ -27,16 +34,21 @@ export const getAllProductController = async (req, res, next) => {
 export const getOneProductController = async (req, res, next) => {
     try {
         const id = req.params.id
-        const product = await Product.findById({ _id: id })
+        const product = await db("products")
+            .select("*")
+            .where({ id })
+            .first()
+
         if (!product) {
             return res.status(404).send({
-                status: "NoT Found",
+                status: "Not Found",
+                message: "Product not found",
             })
         }
 
         return res.status(200).send({
             status: "Success",
-            product: product,
+            product,
         })
     } catch (error) {
         logger.error(error)
@@ -44,12 +56,15 @@ export const getOneProductController = async (req, res, next) => {
     }
 }
 
-export const createProductController = async (req, res, next) => {
+export const createproductController = async (req, res, next) => {
     try {
-        const newProduct = new Product(req.body)
-        await newProduct.save()
+        const newProduct = await db("products")
+            .insert(req.body)
+            .returning("*")
+
         return res.status(201).send({
             status: "Created",
+            product: newProduct[0],
         })
     } catch (error) {
         logger.error(error)
@@ -60,9 +75,23 @@ export const createProductController = async (req, res, next) => {
 export const updateProductController = async (req, res, next) => {
     try {
         const id = req.params.id
-        await Product.findByIdAndUpdate({ _id: id }, req.body, { new: true })
+        const updates = req.body
+
+        const updated = await db("products")
+            .where({ id })
+            .update(updates)
+            .returning("*")
+
+        if (updated.length === 0) {
+            return res.status(404).send({
+                status: "Not Found",
+                message: "Product not found",
+            })
+        }
+
         return res.status(200).send({
-            status: "Updated",
+            status: "Success",
+            product: updated[0],
         })
     } catch (error) {
         logger.error(error)
@@ -73,9 +102,19 @@ export const updateProductController = async (req, res, next) => {
 export const deleteProductController = async (req, res, next) => {
     try {
         const id = req.params.id
-        await Product.findByIdAndDelete({ _id: id })
+
+        const deleted = await db("products").where({ id }).del()
+
+        if (!deleted) {
+            return res.status(404).send({
+                status: "Not Found",
+                message: "Product not found",
+            })
+        }
+
         return res.status(200).send({
             status: "Deleted",
+            message: "Product deleted successfully",
         })
     } catch (error) {
         logger.error(error)

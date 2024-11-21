@@ -12,7 +12,13 @@ export const cartItemRouter = Router()
 
 cartItemRouter.get("/all", authGuard, getAllCartItemController)
 cartItemRouter.get("/one/:id", authGuard, getOneCartItemController)
-cartItemRouter.post("/add", authGuard, roleGuard(["admin"]),createCartItem, createCartItemController)
+cartItemRouter.post(
+    "/add",
+    authGuard,
+    roleGuard(["admin"]),
+    createCartItem,
+    createCartItemController,
+)
 cartItemRouter.put(
     "/update/:id",
     authGuard,
