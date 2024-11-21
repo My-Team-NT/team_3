@@ -12,10 +12,11 @@ import {
     authRouter,
     socialProfileRouter,
     userRouter,
-    addressRouter
+    addressRouter,
 } from "./routes/index.js"
 import { authGuard } from "./middlewares/index.js"
 import {createTables} from './databases/tabels.js'
+
 
 const app = express()
 
@@ -23,10 +24,10 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(morgan("dev"))
 
-app.use("/api/v1/auth",authRouter)
-app.use("/api/v1/users",authGuard  , userRouter)
-app.use("/api/v1/socialProfile",authGuard ,socialProfileRouter)
-app.use("/api/v1/addres",authGuard,addressRouter)
+app.use("/api/v1/auth", authRouter)
+app.use("/api/v1/users", authGuard, userRouter)
+app.use("/api/v1/socialProfile", authGuard, socialProfileRouter)
+app.use("/api/v1/addres", authGuard, addressRouter)
 
 app.use("/api/v1/products", productRouter)
 app.use("/api/v1/categories", categoryRouter)
@@ -37,10 +38,12 @@ app.use("/api/v1/cartItem", cartItemRouter)
 app.use("/api/v1/order", orderRouter)
 app.use("/api/v1/wishlist", wishlistRouter)
 
+
 app.get('/setup', async (req, res) => {
     await createTables();
     res.send('ok')
 })
+
 app.use((err, req, res) => {
     if (err) {
         return res.send(err.message)
