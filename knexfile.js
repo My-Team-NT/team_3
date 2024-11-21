@@ -1,4 +1,4 @@
-import { config } from "dotenv";
+import { config } from "dotenv"
 config()
 
 // Update with your config settings.
@@ -7,7 +7,6 @@ config()
  * @type { Object.<string, import("knex").Knex.Config> }
  */
 export default {
-
   development: {
     client: "pg",
     connection: {

@@ -5,8 +5,10 @@ export const getAllCartController = async (req, res, next) => {
     try {
         const page = req.query.page || 1
         const limit = req.query.limit || 10
+        const skip = (page - 1) * limit
 
-        const data = await Cart.find().skip(page).limit(limit)
+        const data = await db("Cart").select("*").limit(limit).offset(skip)
+
         if (data.length === 0) {
             return res.status(404).send("Not found")
         }
@@ -20,7 +22,8 @@ export const getAllCartController = async (req, res, next) => {
 export const getOneCartController = async (req, res, next) => {
     try {
         const { id } = req.params
-        const data = await Cart.find({ _id: id })
+        const data = await db("Cart").select("*").where({ id }).first()
+
         if (data.length === 0) {
             return res.status(404).send("Not found")
         }
@@ -33,9 +36,9 @@ export const getOneCartController = async (req, res, next) => {
 
 export const createCartController = async (req, res, next) => {
     try {
-        const data = new Cart(req.body)
-        await data.save()
-        res.status(201).send({ status: "created", data: data._id })
+        const data = await db("Cart").insert(req.body).returning("*")
+
+        res.status(201).send({ status: "created", data: data[0].id })
     } catch (error) {
         logger.error(error)
         next(error)
@@ -45,7 +48,18 @@ export const createCartController = async (req, res, next) => {
 export const updateCartController = async (req, res, next) => {
     try {
         const { id } = req.params
-        const data = await Cart.findByIdAndUpdate({ _id: id }, req.body)
+        const data = await db("Cart")
+            .where({ id })
+            .update(req.body)
+            .returning("*")
+
+        if (data.length === 0) {
+            return res.status(404).send({
+                status: "Not Found",
+                message: "Cart not found",
+            })
+        }
+
         res.status(202).send({ status: "Updated", data })
     } catch (error) {
         logger.error(error)
@@ -55,7 +69,16 @@ export const updateCartController = async (req, res, next) => {
 
 export const deleteCartController = async (req, res, next) => {
     try {
-        const data = await Cart.findByIdAndDelete(req.params.id)
+        const { id } = req.params
+        const data = await db("Cart").where({ id }).del().returning("*")
+
+        if (data.length === 0) {
+            return res.status(404).send({
+                status: "Not Found",
+                message: "Cart not found",
+            })
+        }
+
         res.status(200).send({ status: "deleted", data })
     } catch (error) {
         logger.error(error)
