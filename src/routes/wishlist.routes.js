@@ -12,7 +12,13 @@ export const wishlistRouter = Router()
 
 wishlistRouter.get("/all", authGuard, getAllWishlistController)
 wishlistRouter.get("/one/:id", authGuard, getOneWishlistController)
-wishlistRouter.post("/add", authGuard, roleGuard(["admin"]), createWishlist , createWishlistController)
+wishlistRouter.post(
+    "/add",
+    authGuard,
+    roleGuard(["admin"]),
+    createWishlist,
+    createWishlistController,
+)
 wishlistRouter.put(
     "/update/:id",
     authGuard,
