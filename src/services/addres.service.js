@@ -1,19 +1,19 @@
 import db from "../databases/index.js"
-export const getAllAddress = () => {
+export const getAllAddressService = () => {
     try {
         return db("address").select("*")
     } catch (error) {
         throw error
     }
 }
-export const getPageAddress = (page, limit) => {
+export const getPageAddressService = (page, limit) => {
     try {
         return db("address").select("*").limit(limit).offset(page)
     } catch (error) {
         throw error
     }
 }
-export const filterAddress = (name , value) => {
+export const filterAddressService = (name , value) => {
     try {
         return db("address").select("*").where(name ,'=', value )
     } catch (error) {
@@ -21,14 +21,14 @@ export const filterAddress = (name , value) => {
     }
 }
 
-export const searchAddress = (search) => {
+export const searchAddressService = (search) => {
     try {
         return db("address").select("*").where("platform", "ILIKE", `%${search}%`)
     } catch (error) {
         throw error
     }
 }
-export const getByIdAddress = (id) => {
+export const getByIdAddressService = (id) => {
     try {
         return db("address").select("*").where('id' , '=' , id)
     } catch (error) {
@@ -36,7 +36,7 @@ export const getByIdAddress = (id) => {
     }
 }
 
-export const createAddress = (data) => {
+export const createAddressService = (data) => {
     try {
         return db("address").insert({...data}).returning("*")
     } catch (error) {
@@ -44,7 +44,7 @@ export const createAddress = (data) => {
     }
 }
 
-export const updateAddress = (id , data) => {
+export const updateAddressService = (id , data) => {
     try {
         return db("address").where('id' ,'=', id ).update(data)
     } catch (error) {
@@ -52,7 +52,7 @@ export const updateAddress = (id , data) => {
     }
 }
 
-export const deleteAddress = (id) => {
+export const deleteAddressService = (id) => {
     try {
         return db("address").where('id' ,'=', id ).del()
     } catch (error) {

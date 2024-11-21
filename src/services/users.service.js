@@ -1,19 +1,27 @@
 import db from "../databases/index.js"
-export const getAllUsers = () => {
+
+export const getProfileService = (email) => {
+    try {
+        return db("users").select("*").where('email', "=", email)
+    } catch (error) {
+        throw error
+    }
+}
+export const getAllUsersService = () => {
     try {
         return db("users").select("*")
     } catch (error) {
         throw error
     }
 }
-export const getPageUsers = (page, limit) => {
+export const getPageUsersService  = (page, limit) => {
     try {
         return db("users").select("*").limit(limit).offset(page)
     } catch (error) {
         throw error
     }
 }
-export const filterUsers = (name, value) => {
+export const filterUsersService  = (name, value) => {
     try {
         return db("users").select("*").where(name, "=", value)
     } catch (error) {
@@ -21,14 +29,14 @@ export const filterUsers = (name, value) => {
     }
 }
 
-export const searchUsers = (search) => {
+export const searchUsersService  = (search) => {
     try {
         return db("users").select("*").where("platform", "ILIKE", `%${search}%`)
     } catch (error) {
         throw error
     }
 }
-export const getByIdUsers = (id) => {
+export const getByIdUsersService  = (id) => {
     try {
         return db("users").select("*").where("id", "=", id)
     } catch (error) {
@@ -36,7 +44,7 @@ export const getByIdUsers = (id) => {
     }
 }
 
-export const updateUsers = (id, data) => {
+export const updateUsersService  = (id, data) => {
     try {
         return db("users").where("id", "=", id).update(data)
     } catch (error) {
@@ -44,7 +52,7 @@ export const updateUsers = (id, data) => {
     }
 }
 
-export const deleteUsers = (id) => {
+export const deleteUsersService  = (id) => {
     try {
         return db("users").where("id", "=", id).del()
     } catch (error) {

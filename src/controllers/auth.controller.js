@@ -1,9 +1,15 @@
-import { User, OTP } from "../schema/index.js"
+import {
+    createOtp,
+    createUserService,
+    deleteOtpService,
+    getUserEmail,
+    updateUsersService,
+} from "../services/index.js"
 import {
     generateOtp,
     sendMail,
     accessTokenSing,
-    refreshTokenSing
+    refreshTokenSing,
 } from "../utils/index.js"
 import {
     loginValidation,
@@ -33,13 +39,11 @@ export const registerController = async (req, res, next) => {
             <h2 style="background: yellow;color: rgb(0, 0, 0);width: 7%;">${otp}</h2>
             </h1>`,
         )
-        const user = new User(req.body)
-        await user.save()
-        const otp_db = new OTP({
-            user_id: user._id,
+        const user = createUserService(req.body)
+        const otp_db = createOtp({
+            user_id: user.id,
             otp_code: otp,
         })
-        await otp_db.save()
         return res.status(201).send({ status: "Created" })
     } catch (error) {
         next(error)
@@ -53,7 +57,7 @@ export const loginController = async (req, res, next) => {
             return res.status(400).send({ msg: "Malumotlarni toliq kiriting " })
         }
         const { email, password } = req.body
-        const currentUser = await User.findOne({ email })
+        const currentUser = await getUserEmail(email)
         if (!currentUser) {
             return res
                 .status(404)
@@ -100,8 +104,8 @@ export const verifyToken = async (req, res, next) => {
         if (currentOtp.otp === otp) {
             return res.status(401).send({ msg: "Otp xato kiritilgan" })
         }
-        await OTP.deleteOne({ user_id: currentUser._id })
-        await User.updateOne({ email }, { is_active: true })
+        await deleteOtpService(currentUser.id)
+        await updateUsersService(currentUser.id, { is_active: true })
         return res.status(200).send({ msg: "User is Actived" })
     } catch (error) {
         next(error)
