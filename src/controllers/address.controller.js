@@ -1,9 +1,18 @@
-import { Address } from "../schema/index.js"
+import {
+    createAddressService,
+    deleteAddressService,
+    filterAddressService,
+    getAllAddressService,
+    getByIdAddressService,
+    getPageAddressService,
+    searchAddressService,
+    updateAddressService,
+} from "../services/index.js"
 import { addressValidation } from "../validators/index.js"
 
 export const getAllAddress = async (req, res, next) => {
     try {
-        const adress = await Address.find()
+        const adress = await getAllAddressService()
         return res.status(200).send({ status: "Success", data: adress })
     } catch (error) {
         next(error)
@@ -12,7 +21,7 @@ export const getAllAddress = async (req, res, next) => {
 
 export const getByIdAddress = async (req, res, next) => {
     try {
-        const adress = await Address.findById(req.params.id)
+        const adress = await getByIdAddressService(req.params.id)
         if (!adress) {
             return res.status(404).send({ msg: "NOTFOUND" })
         }
@@ -24,7 +33,7 @@ export const getByIdAddress = async (req, res, next) => {
 
 export const filterAddress = async (req, res, next) => {
     try {
-        const adress = await Address.find({ ...req.query })
+        const adress = await filterAddressService(...req.query)
         if (!adress) {
             return req.status(404).send({ msg: "NOT FOUND" })
         }
@@ -37,9 +46,7 @@ export const filterAddress = async (req, res, next) => {
 export const searchAddress = async (req, res, next) => {
     try {
         const search = req.query.name || ""
-        const adress = await Address.find({
-            title: { $regex: search, $options: "i" },
-        })
+        const adress = await searchAddressService(search)
         if (!adress) {
             return req.status(404).send({ msg: "NOT FOUND" })
         }
@@ -52,7 +59,7 @@ export const getPageAddress = async (req, res, next) => {
     try {
         const { page, limit } = req.query
         const skip = (page - 1) * limit
-        const adress = await Address.find().skip(skip).limit(limit)
+        const adress = await getPageAddressService(skip, limit)
         return res.status(200).send({ status: "Success", data: adress })
     } catch (error) {
         next(error)
@@ -66,8 +73,7 @@ export const createAddress = async (req, res, next) => {
                 .status(400)
                 .send({ msg: "MALUMORLAENI TOQLI VA TOGRI KIRTING" })
         }
-        const adress = new Address({ ...req.body })
-        await adress.save()
+        const adress = new createAddressService(...req.body)
         return res.status(201).send({
             status: "Created",
             data: adress,
@@ -79,16 +85,16 @@ export const createAddress = async (req, res, next) => {
 
 export const updateAddress = async (req, res, next) => {
     try {
-        const adress = await Address.findById(req.params.id)
+        const adress = await getByIdAddressService(req.params.id)
         if (!adress) {
             return res.status(404).send({ msg: "NOT FOUND" })
         }
         const newAdressData = { ...adress._doc, ...req.body }
-        const newAdress = await Address.findByIdAndUpdate(
+        const newAdress = await updateAddressService(
             req.params.id,
             newAdressData,
         )
-        return res.status(200).send({ status: "Success", id: newAdress._id })
+        return res.status(200).send({ status: "Success", id: newAdress.id })
     } catch (error) {
         next(error)
     }
@@ -96,12 +102,12 @@ export const updateAddress = async (req, res, next) => {
 
 export const deleteAddress = async (req, res, next) => {
     try {
-        const adress = await Address.findById(req.params.id)
+        const adress = await getByIdAddressService(req.params.id)
         if (!adress) {
             return res.status(404).send({ msg: "NOT FOUND" })
         }
-        const deleteadress = await Address.findByIdAndDelete(req.params.id)
-        return res.status(200).send({ status: "Success", id: deleteadress._id })
+        const deleteadress = await deleteAddressService(req.params.id)
+        return res.status(200).send({ status: "Success", id: deleteadress.id })
     } catch (error) {
         next(error)
     }

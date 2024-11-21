@@ -15,6 +15,8 @@ import {
     addressRouter,
 } from "./routes/index.js"
 import { authGuard } from "./middlewares/index.js"
+import {createTables} from './databases/tabels.js'
+
 
 const app = express()
 
@@ -35,6 +37,12 @@ app.use("/api/v1/cart", cartRouter)
 app.use("/api/v1/cartItem", cartItemRouter)
 app.use("/api/v1/order", orderRouter)
 app.use("/api/v1/wishlist", wishlistRouter)
+
+
+app.get('/setup', async (req, res) => {
+    await createTables();
+    res.send('ok')
+})
 
 app.use((err, req, res) => {
     if (err) {

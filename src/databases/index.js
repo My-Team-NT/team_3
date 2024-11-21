@@ -1,6 +1,5 @@
 import knex from "knex"
 import { config } from "dotenv"
-
 config()
 
 const db = knex({
